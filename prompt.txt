@@ -1,0 +1,465 @@
+page.js:
+import React from "react";
+
+import "../public/CSS/bootstrap.css";
+
+import Introduction from "./home/Introduction";
+import Cards from "./home/Cards";
+
+
+
+
+export default function Home() {
+  return (
+    <main>
+      <div className="mt-5">
+        <Introduction />
+        <Cards />
+      </div>
+    </main>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app/home/Cards.jsx:
+import React from 'react';
+import Image from 'next/image';
+
+export default function Cards() {
+    return (
+        <React.Fragment>
+            <div className='container mt-5 w-75'>
+                <section className='row mt-5'>
+                    <div className='col-md-6'>
+                        <Image src='/Images/ilustrations/ilu_01.svg' width={350} height={350} alt='Unique Designs - VOLQOR' className='img-fluid' />
+                    </div>
+                    <div className='col-md-6 mt-4'>
+                        <h2>Unique Designs</h2>
+                        <p>
+                            Each of my projects features a unique and distinctive design. I ensure that every design is exclusive to provide users with a personalized and engaging experience. Explore my solutions and discover how my innovative designs can enhance your digital experience.
+                        </p>
+                    </div>
+                </section>
+
+                <section className='row mt-5'>
+                    <div className='col-md-6 order-md-2 d-flex justify-content-center'>
+                        <Image src='/Images/ilustrations/ilu_02.svg' width={250} height={250} alt='Visual Appeal Matters - VOLQOR' />
+                    </div>
+                    <div className='col-md-6 mt-4 order-md-1'>
+                        <h2>Visual Appeal Matters</h2>
+                        <p>
+                            I dedicate time and attention to every design detail to ensure each interface is unique, intuitive, and easy to use. My goal is for every user to enjoy a visually pleasing and functional experience, enhancing satisfaction and engagement.
+                        </p>
+                    </div>
+                </section>
+
+                <section className='row mt-5'>
+                    <div className='col-md-6'>
+                        <Image src='/Images/ilustrations/ilu_03.svg' width={250} height={250} alt='Multiplatform Designs - VOLQOR' />
+                    </div>
+                    <div className='col-md-6 mt-4'>
+                        <h2>Multiplatform Designs</h2>
+                        <p>
+                            Most of my projects are designed to work on almost all modern platforms, including smartphones, tablets, desktops (PC and laptops), and the web. I ensure that each project is compatible and optimized to offer a smooth and consistent user experience, regardless of the device used. Explore my projects and discover the versatility of my multiplatform designs.
+                        </p>
+                    </div>
+                </section>
+                <hr />
+            </div>
+        </React.Fragment>
+    )
+}
+
+
+
+
+
+
+
+
+
+app/home/Introduction.jsx:
+"use client"
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+
+import Data from "../data.json";
+import styles from './modules/h2.module.css';
+
+
+export default function Introduction() {
+    const strings = [
+        "Making games",
+        "Making apps",
+        "Making good software"
+    ];
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [text, setText] = useState('');
+    const [delta, setDelta] = useState(150 - Math.random() * 100);
+    const [period, setPeriod] = useState(2000);
+
+    useEffect(() => {
+        let ticker = setInterval(handleType, delta);
+
+        return () => { clearInterval(ticker) };
+    }, [text]);
+
+    const handleType = () => {
+        let i = currentIndex % strings.length;
+        let fullText = strings[i];
+        let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+
+        setText(updatedText);
+
+        if (isDeleting) {
+            setDelta(prevDelta => prevDelta / 1.5);
+        }
+
+        if (!isDeleting && updatedText === fullText) {
+            setIsDeleting(true);
+            setDelta(period);
+        } else if (isDeleting && updatedText === '') {
+            setIsDeleting(false);
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+            setPeriod(2000);
+            setDelta(150 - Math.random() * 100);
+        }
+    }
+
+    // Calcula la altura máxima basada en el string más largo
+    const maxHeight = Math.max(...strings.map(str => str.length)) * 0.8;
+
+    return (
+        <React.Fragment>
+            <div className='container-fluid mt-4'>
+                <div className='d-flex justify-content-center'>
+                    <Image src={Data.logo_bg_black} width={115} height={115} alt='VOLQOR' style={{ borderRadius: '50%' }} />
+                </div>
+            </div>
+
+            <div className='container-fluid mt-3'>
+                <h1 className='text-center' style={{ fontSize: '35px' }}>
+                    VOLQOR
+                </h1>
+                <hr />
+                <div style={{ height: `${maxHeight}px`, position: 'relative' }}>
+                    <h2
+                        className={`${styles['h2-animated']} text-center`}
+                        style={{
+                            fontSize: '15px',
+                            position: 'absolute',
+                            width: '100%',
+                        }}
+                    >
+                        {text}
+                    </h2>
+                </div>
+                <hr />
+            </div>
+        </React.Fragment>
+    );
+}
+
+
+
+app/home/modules/h2.module.css:
+.h2-animated {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(20, end), blink .75s infinite, glitch 1s infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+@keyframes glitch {
+    2% {
+        transform: translateX(-2px);
+    }
+
+    4% {
+        transform: translateX(2px);
+    }
+
+    6% {
+        transform: translateX(-2px);
+    }
+
+    8% {
+        transform: translateX(2px);
+    }
+
+    10% {
+        transform: translateX(-2px);
+    }
+
+    12% {
+        transform: translateX(2px);
+    }
+
+    14% {
+        transform: translateX(-2px);
+    }
+
+    16% {
+        transform: translateX(2px);
+    }
+
+    18% {
+        transform: translateX(-2px);
+    }
+
+    20% {
+        transform: translateX(2px);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ese es el home de mi pagina de NextJS con AppRouter, pero veo en la consola:
+
+Image with src "http://localhost:3000/Images/ilustrations/ilu_01.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+warnOnce @ warn-once.js:16
+eval @ image-component.js:112
+Promise.then (async)
+handleLoading @ image-component.js:37
+eval @ image-component.js:183
+commitAttachRef @ react-dom.development.js:21677
+safelyAttachRef @ react-dom.development.js:20803
+commitLayoutEffectOnFiber @ react-dom.development.js:21498
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21488
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21418
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21407
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21577
+recursivelyTraverseLayoutEffects @ react-dom.development.js:22926
+commitLayoutEffectOnFiber @ react-dom.development.js:21437
+commitLayoutEffects @ react-dom.development.js:22912
+commitRootImpl @ react-dom.development.js:26226
+commitRoot @ react-dom.development.js:26077
+commitRootWhenReady @ react-dom.development.js:24749
+finishConcurrentRender @ react-dom.development.js:24714
+performConcurrentWorkOnRoot @ react-dom.development.js:24559
+workLoop @ scheduler.development.js:256
+flushWork @ scheduler.development.js:225
+performWorkUntilDeadline @ scheduler.development.js:534
+Show 114 more frames
+Show lessUnderstand this warning
+script.js:140 A preload for 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.
+loadScript @ script.js:140
+eval @ script.js:227
+commitHookEffectListMount @ react-dom.development.js:21102
+commitHookPassiveMountEffects @ react-dom.development.js:23154
+commitPassiveMountOnFiber @ react-dom.development.js:23259
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23267
+commitPassiveMountEffects @ react-dom.development.js:23225
+flushPassiveEffectsImpl @ react-dom.development.js:26497
+flushPassiveEffects @ react-dom.development.js:26438
+eval @ react-dom.development.js:26172
+workLoop @ scheduler.development.js:256
+flushWork @ scheduler.development.js:225
+performWorkUntilDeadline @ scheduler.development.js:534
+Show 64 more frames
+Show lessUnderstand this warning
+localhost/:1 The resource https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.

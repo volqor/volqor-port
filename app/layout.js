@@ -1,15 +1,11 @@
 import React from 'react';
 import Script from 'next/script';
-import { Inter } from 'next/font/google';
 
 import "../public/CSS/bootstrap.css";
 import Data from "./data.json";
 
 import { NavBar } from './Navigation';
 import Footer from './Footer';
-
-const inter = Inter({ subsets: ['latin'] })
-
 
 export const metadata = {
   title: 'Home | VOLQOR',
@@ -43,10 +39,21 @@ export const metadata = {
   robots: 'index, follow',
   canonical: 'https://volqor.github.io/'
 }
+
+const RemoveAttribute = () => {
+  return (
+    <Script id="remove-attribute" strategy="afterInteractive">
+      {`
+        document.body.removeAttribute('cz-shortcut-listen');
+      `}
+    </Script>
+  );
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning>
+      <body>
         <div className='container-fluid mt-2'>
           <NavBar />
         </div>
@@ -54,10 +61,15 @@ export default function RootLayout({ children }) {
         {children}
 
         <Footer />
+        <RemoveAttribute />
       </body>
 
-
-      <Script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossOrigin='anonymous' />
+      <Script
+        src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+        integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
+        strategy="afterInteractive"
+        crossOrigin="anonymous"
+      />
     </html>
   )
 }

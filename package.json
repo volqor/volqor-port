@@ -9,7 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
+    "gif.js": "^0.2.0",
     "gif.js.optimized": "^1.0.1",
+    "gifshot": "^0.4.5",
+    "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
+    "jszip": "^3.10.1",
+    "modern-screenshot": "^4.4.39",
     "next": "14.2.4",
     "react": "18.3.1",
     "react-dom": "18.3.1",

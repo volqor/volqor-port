@@ -6,6 +6,7 @@ import Data from "../../data.json";
 import Introduction from './Components/Introduction';
 import Branding from './Components/Branding';
 import Downloads from './Components/Downloads';
+import Another from './Components/Another';
 
 
 
@@ -48,6 +49,7 @@ export default function page() {
             <Introduction />
             <Branding />
             <Downloads />
+            <Another />
         </React.Fragment>
     )
 }

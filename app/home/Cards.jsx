@@ -7,7 +7,9 @@ export default function Cards() {
             <div className='container mt-5 w-75'>
                 <section className='row mt-5'>
                     <div className='col-md-6'>
-                        <Image src='/Images/ilustrations/ilu_01.svg' width={350} height={350} alt='Unique Designs - VOLQOR' className='img-fluid' />
+                        <div>
+                            <Image src='/Images/ilustrations/ilu_01.svg' width={300} height={300} alt='Unique Designs - VOLQOR' />
+                        </div>
                     </div>
                     <div className='col-md-6 mt-4'>
                         <h2>Unique Designs</h2>
@@ -18,8 +20,10 @@ export default function Cards() {
                 </section>
 
                 <section className='row mt-5'>
-                    <div className='col-md-6 order-md-2 d-flex justify-content-center'>
-                        <Image src='/Images/ilustrations/ilu_02.svg' width={250} height={250} alt='Visual Appeal Matters - VOLQOR' />
+                    <div className='col-md-6 order-md-2'>
+                        <div>
+                            <Image src='/Images/ilustrations/ilu_02.svg' width={250} height={250} alt='Visual Appeal Matters - VOLQOR' />
+                        </div>
                     </div>
                     <div className='col-md-6 mt-4 order-md-1'>
                         <h2>Visual Appeal Matters</h2>
@@ -31,7 +35,9 @@ export default function Cards() {
 
                 <section className='row mt-5'>
                     <div className='col-md-6'>
-                        <Image src='/Images/ilustrations/ilu_03.svg' width={250} height={250} alt='Multiplatform Designs - VOLQOR' />
+                        <div>
+                            <Image src='/Images/ilustrations/ilu_03.svg' width={250} height={250} alt='Multiplatform Designs - VOLQOR' />
+                        </div>
                     </div>
                     <div className='col-md-6 mt-4'>
                         <h2>Multiplatform Designs</h2>

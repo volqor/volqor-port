@@ -56,6 +56,7 @@ export default function Branding() {
                                     width={1242}
                                     height={2208}
                                     alt={`Mobile slide ${index + 1}`}
+                                    priority
                                 />
                             </div>
                         ))}
@@ -78,6 +79,7 @@ export default function Branding() {
                                     width={2048}
                                     height={2732}
                                     alt={`Tablet slide ${index + 1}`}
+                                    priority
                                 />
                             </div>
                         ))}
